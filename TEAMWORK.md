@@ -4,9 +4,7 @@ output: pdf_document
 date: "2023-09-21"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
 [GitHub](https://github.com/stat545ubc-2023/collaborative-group16)
 
 ### *Division of Labour*: 
