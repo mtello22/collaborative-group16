@@ -17,10 +17,9 @@ Note that errors are not all syntactic (i.e., broken code)! Some are logical err
 
 ```{r}
 ### GRACE FIXED ERROR ###
-install.packages("dslabs")
+### Edited by Marco ###
 library(tidyverse)
 library(stringr)
-install.packages("devtools")
 library(gapminder)
 library(dslabs)
 library(devtools)
