@@ -36,7 +36,7 @@ Let's have a look at the dataset! My goal is to:
 ### GRACE FIXED ERROR ###
 class(dslabs::movielens)
 movieLens <- as_tibble(dslabs::movielens)
-dim_desc(movieLens)
+glimpse(movieLens)
 print(movieLens)
 
 ```
@@ -81,8 +81,8 @@ movieLens %>%
 As you already know, `mutate()` defines and inserts new variables into a tibble. There is *another mystery function similar to `mutate()`* that adds the new variable, but also drops existing ones. I wanted to create an `average_rating` column that takes the `mean(rating)` across all entries, and I only want to see that variable (i.e drop all others!) but I forgot what that mystery function is. Can you remember?
 
 ```{r}
-### ERROR HERE ### 
-movielens %>%
+### Tom fixed error ### 
+movieLens %>%
   transmute(average_rating = mean(rating))
 ```
 
@@ -101,17 +101,17 @@ movieLens %>%
 Without using `group_by()`, I want to find out how many movie reviews there have been for each year.
 
 ```{r}
-### ERROR HERE ###
+### Tom fixed error ###
 movieLens %>%
-  tally(year)
+  count(year)
 ```
 
 Both `count()` and `tally()` can be grouped by multiple columns. Below, I want to count the number of movie reviews by title and rating, and sort the results.
 
 ```{r}
-### ERROR HERE ###
+### Tom fixed error ###
 movieLens %>%
-  count(c(title, rating), sort = TRUE)
+  count(title, rating, sort = TRUE)
 ```
 
 Not only do `count()` and `tally()` quickly allow you to count items within your dataset, `add_tally()` and `add_count()` are handy shortcuts that add an additional columns to your tibble, rather than collapsing each group.
@@ -129,9 +129,10 @@ movieLens %>%
 Using `summarize()`, we can find the minimum and the maximum rating by title, stored under columns named `min_rating`, and `max_rating`, respectively.
 
 ```{r}
-### ERROR HERE ###
+### Tom fixed error ###
 movieLens %>%
-  mutate(min_rating = min(rating), 
+  group_by(title) %>%
+  summarize(min_rating = min(rating), 
          max_rating = max(rating))
 ```
 
@@ -153,10 +154,10 @@ starWars %>%
 We can find the minimum height and mass within each species, ignoring the missing values: 
 
 ```{r}
-### ERROR HERE ###
+### Tom fixed error ###
 starWars %>%
   group_by(species) %>%
-  summarise(across("height", "mass", function(x) min(x, na.rm=TRUE)))
+  summarise(across(c(height, mass), function(x) min(x, na.rm=TRUE)))
 ```
 
 Note that here R has taken the convention that the minimum value of a set of `NA`s is `Inf`.
@@ -170,18 +171,10 @@ Manually create a tibble with 4 columns:
 -   `birth_location` should contain three locations (Liverpool, Seattle, and New York).
 
 ```{r}
-### ERROR HERE ###
-fakeStarWars <- tribble(
-  ~name,            ~birth_weight,  ~birth_year, ~birth_location
-  "Luke Skywalker",  1.35      ,   1998        ,  Liverpool, England,
-  "C-3PO"         ,  1.80      ,   1999        ,  Liverpool, England,
-  "R2-D2"         ,  2.25      ,   2000        ,  Seattle, WA,
-  "Darth Vader"   ,  2.70      ,   2001        ,  Liverpool, England,
-  "Leia Organa"   ,  3.15      ,   2002        ,  New York, NY,
-  "Owen Lars"     ,  3.60      ,   2003        ,  Seattle, WA,
-  "Beru Whitesun Iars", 4.05   ,   2004        ,  Liverpool, England,
-  "R5-D4"         ,  4.50      ,   2005        ,  New York, NY,
-)
+### Tom fixed error ###
+fakeStarWars <- tibble(
+  name=c("Luke Skywalker","C-3PO", "R2-D2", "Darth Vader", "Leia Organa", "Owen Lars", "Beru Whitesun Iars", "R5-D4"), birth_weight=c(1.35,1.80,2.25,2.70,3.15,3.60,4.05,4.50), birth_year=c(1998:2005), birth_location=c("Liverpool, England","Liverpool, England","Seattle, WA","Liverpool, England","New York, NY","Seattle, WA","Liverpool, England","New York, NY"))
+print(fakeStarWars)
 ```
 
 ## Attributions
